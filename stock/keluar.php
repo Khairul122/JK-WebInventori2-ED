@@ -400,20 +400,20 @@ if (isset($_POST['hapus'])) {
                                     </div>
                                 </div>
                                 <br>
-                                    <form action="exportbrgmsk.php" method="GET">
-                                        <div class="form-group">
-                                          <h3>Export Data</h3>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="from_date">Dari Tanggal:</label>
-                                            <input type="date" id="from_date" name="from_date" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="to_date">Sampai Tanggal:</label>
-                                            <input type="date" id="to_date" name="to_date" class="form-control">
-                                        </div>
-                                        <button type="submit" class="btn btn-info">Export Data</button>
-                                    </form>
+                                <form action="exportbrgklr.php" method="GET">
+                                    <div class="form-group">
+                                        <h3>Export Data</h3>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="from_date">Dari Tanggal:</label>
+                                        <input type="date" id="from_date" name="from_date" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="to_date">Sampai Tanggal:</label>
+                                        <input type="date" id="to_date" name="to_date" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-info">Export Data</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -426,7 +426,7 @@ if (isset($_POST['hapus'])) {
     </div>
     <!-- main content area end -->
     <!-- footer area start-->
-  
+
     <!-- footer area end-->
     </div>
     <!-- page container area end -->
