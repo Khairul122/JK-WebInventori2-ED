@@ -1,25 +1,34 @@
-<?php 
+<?php
 include 'cek.php';
 include '../dbconnect.php';
 
-function tgl_indo($tanggal){
-    $bulan = array (
-        1 =>   'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-    );
-    $pecahkan = explode('-', $tanggal);
-     
-    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+function tgl_indo($tanggal)
+{
+	$bulan = array(
+		1 =>   'Januari',
+		'Februari',
+		'Maret',
+		'April',
+		'Mei',
+		'Juni',
+		'Juli',
+		'Agustus',
+		'September',
+		'Oktober',
+		'November',
+		'Desember'
+	);
+	$pecahkan = explode('-', $tanggal);
+
+	return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+}
+
+$from_date = isset($_GET['from_date']) ? $_GET['from_date'] : '';
+$to_date = isset($_GET['to_date']) ? $_GET['to_date'] : '';
+
+$whereClause = "";
+if (!empty($from_date) && !empty($to_date)) {
+	$whereClause = "AND sb.tgl BETWEEN '$from_date' AND '$to_date'";
 }
 ?>
 
@@ -90,7 +99,8 @@ function tgl_indo($tanggal){
 				</thead>
 				<tbody>
 					<?php
-					$brg = mysqli_query($conn, "SELECT * FROM sbrg_keluar sb, sstock_brg st where sb.idx=st.idx ORDER BY sb.id ASC");
+					$query = "SELECT * FROM sbrg_keluar sb, sstock_brg st WHERE sb.idx=st.idx $whereClause ORDER BY sb.id ASC";
+					$brg = mysqli_query($conn, $query);
 					$no = 1;
 					while ($b = mysqli_fetch_array($brg)) {
 					?>
@@ -113,7 +123,7 @@ function tgl_indo($tanggal){
 			</table>
 			<br><br>
 			<div style="text-align:right;margin-right:50px;">
-			<p style="padding-right: 145px;">Batu Bara, <?php echo tgl_indo(date('Y-m-d')); ?></p>
+				<p style="padding-right: 145px;">Batu Bara, <?php echo tgl_indo(date('Y-m-d')); ?></p>
 				<p style="padding-right: 100px;">Manajer PMKS Tanjung Kasau</p>
 				<br><br><br>
 				<p style="padding-right: 250px;">Manajer</p>
@@ -127,22 +137,31 @@ function tgl_indo($tanggal){
 	<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#dataTable3').DataTable( {
+			$('#dataTable3').DataTable({
 				dom: 'Bfrtip',
 				buttons: [
-				   'copy', 'csv', 'excel', 'pdf', 'print',
+					'copy', 'csv', 'excel', 'pdf', 'print',
 				]
-			} );
+			});
 
 			// Fungsi untuk mengunduh PDF
-			$('#download-pdf').click(function () {
+			$('#download-pdf').click(function() {
 				var element = document.getElementById('report-content');
 				html2pdf(element, {
-					margin:       1,
-					filename:     'Laporan_Bahan_Keluar.pdf',
-					image:        { type: 'jpeg', quality: 0.98 },
-					html2canvas:  { scale: 2 },
-					jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+					margin: 1,
+					filename: 'Laporan_Bahan_Keluar.pdf',
+					image: {
+						type: 'jpeg',
+						quality: 0.98
+					},
+					html2canvas: {
+						scale: 2
+					},
+					jsPDF: {
+						unit: 'in',
+						format: 'letter',
+						orientation: 'portrait'
+					}
 				});
 			});
 		});
